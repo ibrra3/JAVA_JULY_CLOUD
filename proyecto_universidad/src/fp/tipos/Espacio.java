@@ -100,6 +100,7 @@ public class Espacio implements Comparable<Espacio> {
 
 	public void setTipo(tipoEspacio tipo) {
 		Objects.requireNonNull(tipo);
+		
 		this.tipo = tipo;
 	}
 

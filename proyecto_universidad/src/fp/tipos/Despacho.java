@@ -3,8 +3,11 @@ package fp.tipos;
 import java.util.HashSet;
 import java.util.Set;
 
-import fp.tipos.*;
 import fp.utiles.Checkers;
+import fp.tipos.Profesor;
+import fp.tipos.Persona;
+import fp.tipos.Espacio;
+
 public class Despacho extends Espacio {
 
 	
@@ -24,61 +27,64 @@ public class Despacho extends Espacio {
 	 * del tipo Espacio salvo el tipo, que se inicializará con el valor 'OTRO'. En este caso el despacho no tendrá ningún profesor asignado.			
 	 */
 
-	public Despacho(String nombre, Integer capacidad, Set<Profesor> profesores) {
-		super(nombre, capacidad, tipoEspacio.OTRO);
-		Checkers.checkNoNull(profesores);
-		this.profesores = new HashSet<Profesor>();
+    public Despacho(String nombre, Integer capacidad, Set<Profesor> profesores) {
+        super(nombre, capacidad, tipoEspacio.OTRO);
+        Checkers.checkNoNull(profesores);
+        this.profesores = new HashSet<>(profesores); // Initialize with provided professors
+        checkDespacho(); // Validate after initialization
+    }
+
+    // Constructor with a single professor
+    public Despacho(String nombre, Integer capacidad, Profesor profesor) {
+        super(nombre, capacidad, tipoEspacio.OTRO);
+        Checkers.checkNoNull(profesor);
+        this.profesores = new HashSet<>();
+        this.profesores.add(profesor); // Add the single professor
+        checkDespacho(); // Validate after initialization
+    }
+
+    // Constructor with no professors
+    public Despacho(String nombre, Integer capacidad) {
+        super(nombre, capacidad, tipoEspacio.OTRO);
+        this.profesores = new HashSet<>(); // Initialize empty Set
+        checkDespacho(); // Validate after initialization
+    }
+
+    // Getter for professors
+    public Set<Profesor> getProfesores() {
+        return new HashSet<>(profesores); // Return a defensive copy
+    }
+
+    // Setter for professors with validation
+    public void setProfesores(Set<Profesor> profesores) {
+        Checkers.checkNoNull(profesores);
+        this.profesores = new HashSet<>(profesores); // Assign a new Set
+        checkDespacho(); // Validate after assignment
+    }
+
+    // Validation method
+    private void checkDespacho() {
+        if (profesores.size() > getCapacidad()) {
+            throw new IllegalArgumentException("El número de profesores no puede superar la capacidad del despacho.");
+        }
+        if (getTipo() != tipoEspacio.OTRO) {
+            throw new UnsupportedOperationException("El tipo de despacho debe ser 'OTRO'.");
+        }
+    }
+
+  
+
+	//public void setTipo(tipoEspacio tipo) {
+     //   throw new UnsupportedOperationException("No se puede cambiar el tipo de un despacho.");
+    //}
+
+	@Override
+	public void setTipo(tipoEspacio tipo) {
+		// TODO Auto-generated method stub
+		super.setTipo(tipo);
 		checkDespacho();
-
 		
-	}
-	
-	
-	public Despacho(String nombre, Integer capacidad, Profesor profesor) {
-		super(nombre, capacidad, tipoEspacio.OTRO);
-		Checkers.checkNoNull(profesores);
-		
-		this.profesores = new HashSet<Profesor>();
-		this.profesores.add(profesor);
-		checkDespacho();
-	}
-	
-	
-	public Despacho(String nombre, Integer capacidad) {
-		super(nombre, capacidad, tipoEspacio.OTRO);
-		Checkers.checkNoNull(profesores);
-		this.profesores = new HashSet<Profesor>();
-		checkDespacho();
-
-	}
-	
-			
-			
-	public Set<Profesor> getProfesores() {
-		return profesores;
-	}
-
-	public void setProfesores(Set<Profesor> profesores) {
-		this.profesores = profesores;
-	}
-
-
-	private void checkDespacho() {
-		if(profesores.size()>getCapacidad()) {
-			throw new IllegalArgumentException("el numero de profesores no puede superar la capacidad del Despacho");
-		}
-		
-		if(getTipo()!=tipoEspacio.OTRO) {
-			throw new  UnsupportedOperationException("el tipo de Despacho / Espacio debe ser 'OTRO' ");
-		}
-	}
-
-
-	
-
-
-
-			
+	}		
 			
 			
 	//Dos despachos son iguales si tienen el mismo nombre y están en la misma planta.  (IGUAL QUE ESPACIO -> NO SE IMPLEMENTA ) 
@@ -94,6 +100,7 @@ public class Despacho extends Espacio {
 	//	33123210J – Vegarredonda Ordiales,Jorge – 25/11/1990 (CONTRATADO_DOCTOR)]"		
 			
 			
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

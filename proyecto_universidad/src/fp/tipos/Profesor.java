@@ -3,8 +3,11 @@ package fp.tipos;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
+import java.util.Set;
 import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.TreeSet;	
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -13,7 +16,7 @@ import fp.utiles.Checkers;
 public class Profesor extends Persona {
 	
 	private tipoProfesor tipo;
-	private SortedSet<Tutoria> tutorias;
+	private SortedSet<Tutoria> tutorias;		//  INICIALMENTE EL PROFESOR NO TENDRIA TUTORIAS 
 	
 	
 	/*
@@ -117,7 +120,6 @@ public class Profesor extends Persona {
 		this.tutorias.clear();
 		//this.tutorias.removeAll(tutorias);  WORKS BUT NOT RECOMMENDED !! -106
 	}
-	
 	
 	
 	

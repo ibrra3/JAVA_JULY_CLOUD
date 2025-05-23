@@ -10,7 +10,7 @@ import fp.tipos.Asignatura;
 
 public class Alumno extends Persona{
 
-	private Set<Asignatura> asignaturas = new HashSet<Asignatura>();
+	private Set<Asignatura> asignaturas = new HashSet<Asignatura>(); 
 		
 	//private Integer curso;   TODO
 				
@@ -22,9 +22,8 @@ public class Alumno extends Persona{
 		checkEmailAlumno(correo);
 		
 		this.asignaturas = new HashSet<>();
-		// TODO Auto-generated constructor stub
 	}
-	
+	// TEKKERA AT WAR - 106
 	private void checkEmailAlumno(String correo) {
 		
 		
