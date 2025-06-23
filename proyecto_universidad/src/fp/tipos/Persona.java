@@ -50,7 +50,7 @@ public class Persona implements Comparable<Persona>{
 	    }
 
 		if(dni.length()!=9) {
-			throw new IllegalArgumentException("Dni debe estar formado por 9 digitos, Tienes"+dni.length());
+			throw new IllegalArgumentException("El DNI está formado por 8 dígitos y una letra");
 		}
 		
 		for (int i=0 ; i<8  ; i++) {

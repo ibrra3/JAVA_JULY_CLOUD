@@ -27,16 +27,17 @@ public class Despacho extends Espacio {
 	 * del tipo Espacio salvo el tipo, que se inicializará con el valor 'OTRO'. En este caso el despacho no tendrá ningún profesor asignado.			
 	 */
 
-    public Despacho(String nombre, Integer capacidad, Set<Profesor> profesores) {
-        super(nombre, capacidad, tipoEspacio.OTRO);
+    public Despacho(String nombre,Integer planta, Integer capacidad, Set<Profesor> profesores) {
+        super(nombre, planta, capacidad, tipoEspacio.OTRO);
         Checkers.checkNoNull(profesores);
         this.profesores = new HashSet<>(profesores); // Initialize with provided professors
         checkDespacho(); // Validate after initialization
-    }
+        
+    }//												 Ahora todos los constructores reciben la 'planta' para pasarla a super().
 
     // Constructor with a single professor
-    public Despacho(String nombre, Integer capacidad, Profesor profesor) {
-        super(nombre, capacidad, tipoEspacio.OTRO);
+    public Despacho(String nombre,Integer planta, Integer capacidad, Profesor profesor) {
+        super(nombre,planta, capacidad, tipoEspacio.OTRO);
         Checkers.checkNoNull(profesor);
         this.profesores = new HashSet<>();
         this.profesores.add(profesor); // Add the single professor
@@ -44,8 +45,8 @@ public class Despacho extends Espacio {
     }
 
     // Constructor with no professors
-    public Despacho(String nombre, Integer capacidad) {
-        super(nombre, capacidad, tipoEspacio.OTRO);
+    public Despacho(String nombre,Integer planta, Integer capacidad) {
+        super(nombre, planta, capacidad, tipoEspacio.OTRO);
         this.profesores = new HashSet<>(); // Initialize empty Set
         checkDespacho(); // Validate after initialization
     }

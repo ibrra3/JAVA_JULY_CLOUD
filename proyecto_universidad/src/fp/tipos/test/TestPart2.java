@@ -26,8 +26,8 @@ public class TestPart2 {
 	        testPersonaParte2();
 
 	        // --- Pruebas para Espacio (Restricciones, Igualdad, Orden) ---
-	        // System.out.println("\n--- Pruebas Espacio (Parte 2) ---");
-	        // testEspacioParte2(); // Assuming Espacio and TipoEspacio are defined
+	         System.out.println("\n--- Pruebas Espacio (Parte 2) ---");
+	         testEspacio(); // Assuming Espacio and TipoEspacio are defined
 
 	        // --- Pruebas para Nota (Restricciones, Igualdad, Orden) ---
 	        System.out.println("\n--- Pruebas Nota (Parte 2) ---");
@@ -213,42 +213,74 @@ public class TestPart2 {
 
 	    // Necesitaríamos las definiciones de Espacio y TipoEspacio para implementar testEspacioParte2()
 	    
-	    public static void testEspacioParte2() {
-	        System.out.println("  --- Test Restricciones Espacio ---");
-	        // Capacidad > 0. Planta no modificable (no hay setter para probar)
+	    public static void testEspacio() {
+	        System.out.println("\n--- Pruebas para la clase Espacio (Actualizado para Parte 4) ---");
+
+	        // =================================================================================
+	        System.out.println("\n1. Test Constructor Principal y Restricciones");
+	        // =================================================================================
 	        try {
-	            new Espacio("A1.1",0,tipoEspacio.TEORIA); // Capacidad cero
-	            System.err.println("ERROR Espacio: Capacidad cero permitida.");
+	            // Ahora el constructor es: Espacio(nombre, planta, capacidad, tipo)
+	            new Espacio("A1.1", 1, 0, tipoEspacio.TEORIA); // Capacidad cero, debe fallar
+	            System.err.println("ERROR: Se permitió crear un Espacio con capacidad cero.");
 	        } catch (IllegalArgumentException e) {
-	            System.out.println("ÉXITO Espacio: Restricción capacidad cero: " + e.getMessage());
+	            System.out.println("ÉXITO: Excepción capturada correctamente por capacidad cero.");
 	        }
-	        Espacio espValido = new Espacio("L0.1",20,tipoEspacio.LAB);
-	        System.out.println("Espacio válido creado: " + espValido);
-	        // Probar setCapacidad (si existe y es parte de la interfaz pública)
-	         try {
-	             espValido.setCapacidad(0);
-	             System.err.println("ERROR Espacio: setCapacidad(0) permitido.");
-	         } catch (IllegalArgumentException e) {
-	             System.out.println("ÉXITO Espacio: Restricción setCapacidad(0): " + e.getMessage());
-	         }
 
-	        System.out.println("\n  --- Test Igualdad y Orden Espacio ---");
-	        // Igualdad: nombre y planta. Orden: planta, nombre.
-	        Espacio e1 = new Espacio( "A1.1", 50,tipoEspacio.TEORIA);
-	        Espacio e2 = new Espacio( "A1.1", 30,tipoEspacio.LAB); // Mismo nombre y planta
-	        Espacio e3 = new Espacio( "A1.2", 50,tipoEspacio.TEORIA); // Diferente nombre, misma planta
-	        Espacio e4 = new Espacio( "A1.1", 50,tipoEspacio.TEORIA); // Mismo nombre, diferente planta
-	        Espacio e5 = new Espacio("S0.5", 25,tipoEspacio.SEMINARIO ); // Planta menor
+	        Espacio espValido = new Espacio("L0.1", 0, 20, tipoEspacio.LAB);
+	        System.out.println("ÉXITO: Espacio válido creado: " + espValido);
 
-	        System.out.println("e1.equals(e2)? (Mismo nombre, planta): " + e1.equals(e2) + " (Esperado: true)");
-	        System.out.println("e1.hashCode() == e2.hashCode()? " + (e1.hashCode() == e2.hashCode()) + " (Esperado: true)");
-	        System.out.println("e1.equals(e3)? (Dif nombre): " + e1.equals(e3) + " (Esperado: false)");
-	        System.out.println("e1.equals(e4)? (Dif planta): " + e1.equals(e4) + " (Esperado: false)");
-	        
-	        System.out.println("Comparaciones (Planta, Nombre):");
-	        System.out.println("  e1 vs e3 (Planta 1, A1.1 vs A1.2): " + e1.compareTo(e3) + " (Esperado: negativo, A1.1 < A1.2)");
-	        System.out.println("  e1 vs e4 (Planta 1 vs Planta 2): " + e1.compareTo(e4) + " (Esperado: negativo, Planta 1 < Planta 2)");
-	        System.out.println("  e1 vs e5 (Planta 1 vs Planta 0): " + e1.compareTo(e5) + " (Esperado: positivo, Planta 1 > Planta 0)");
+	        try {
+	            espValido.setCapacidad(-5); // Probar el setter con un valor inválido
+	            System.err.println("ERROR: se permitió una capacidad negativa mediante setCapacidad.");
+	        } catch (IllegalArgumentException e) {
+	            System.out.println("ÉXITO: Excepción capturada correctamente por setCapacidad con valor negativo.");
+	        }
+
+
+	        // =================================================================================
+	        System.out.println("\n2. Test Nuevo Constructor a partir de String (Tarea Parte 4)");
+	        // =================================================================================
+	        // Prueba con un String válido
+	        try {
+	            Espacio espDesdeString = new Espacio("A0.10,0,100,TEORIA");
+	            System.out.println("ÉXITO: Creado Espacio desde String: " + espDesdeString);
+	            System.out.println("  Nombre: " + espDesdeString.getNombre() + " (Esperado: A0.10)");
+	            System.out.println("  Planta: " + espDesdeString.getPlanta() + " (Esperado: 0)");
+	            System.out.println("  Capacidad: " + espDesdeString.getCapacidad() + " (Esperado: 100)");
+	            System.out.println("  Tipo: " + espDesdeString.getTipo() + " (Esperado: TEORIA)");
+	        } catch (Exception e) {
+	            System.err.println("ERROR: Falló la creación de Espacio desde un String válido: " + e.getMessage());
+	        }
+
+	        // Prueba con un String con formato incorrecto (faltan partes)
+	        try {
+	            new Espacio("A0.11,0,150"); // Solo 3 partes
+	            System.err.println("ERROR: Se permitió crear un Espacio desde un String con formato incorrecto.");
+	        } catch (IllegalArgumentException e) {
+	            System.out.println("ÉXITO: Excepción capturada por String con formato incorrecto.");
+	        }
+
+
+	        // =================================================================================
+	        System.out.println("\n3. Test Igualdad y Orden (con 'planta' como atributo)");
+	        // =================================================================================
+	        // Igualdad: depende de nombre y planta. Orden: primero por planta, luego por nombre.
+	        Espacio e1 = new Espacio("A1.1", 1, 50, tipoEspacio.TEORIA);
+	        Espacio e2 = new Espacio("A1.1", 1, 30, tipoEspacio.LAB);    // Mismo nombre y planta -> IGUALES
+	        Espacio e3 = new Espacio("A1.2", 1, 50, tipoEspacio.TEORIA); // Misma planta, diferente nombre -> DIFERENTES
+	        Espacio e4 = new Espacio("A1.1", 2, 50, tipoEspacio.TEORIA); // Mismo nombre, diferente planta -> DIFERENTES
+	        Espacio e5 = new Espacio("S0.5", 0, 25, tipoEspacio.SEMINARIO);
+
+	        System.out.println("e1.equals(e2)? (Mismo nombre y planta): " + e1.equals(e2) + " (Esperado: true)");
+	        System.out.println("  e1.hashCode() == e2.hashCode()? " + (e1.hashCode() == e2.hashCode()) + " (Esperado: true)");
+	        System.out.println("e1.equals(e3)? (Diferente nombre): " + e1.equals(e3) + " (Esperado: false)");
+	        System.out.println("e1.equals(e4)? (Diferente planta): " + e1.equals(e4) + " (Esperado: false)");
+
+	        System.out.println("\nComparaciones (Planta, Nombre):");
+	        System.out.println("  e1.compareTo(e3) (Planta 1, A1.1 vs A1.2): " + e1.compareTo(e3) + " (Esperado: negativo)");
+	        System.out.println("  e1.compareTo(e4) (Planta 1 vs Planta 2): " + e1.compareTo(e4) + " (Esperado: negativo)");
+	        System.out.println("  e1.compareTo(e5) (Planta 1 vs Planta 0): " + e1.compareTo(e5) + " (Esperado: positivo)");
 	    }
 	    
 
